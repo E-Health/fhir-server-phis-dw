@@ -5,7 +5,7 @@ services:
     container_name: hapi-fhir-jpaserver-start
     restart: on-failure
     ports:
-      - "8080:8080"
+      - "8092:8080"
   hapi-fhir-mysql:
     image: mysql:latest
     container_name: hapi-fhir-mysql
