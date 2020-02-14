@@ -7,8 +7,10 @@ services:
     restart: on-failure
     ports:
       - "8092:8080"
+    depends_on: 
+      - hapi-fhir-mysql
   hapi-fhir-mysql:
-    image: mysql:latest
+    image: mysql:5.7
     container_name: hapi-fhir-mysql
     restart: always
     environment:
