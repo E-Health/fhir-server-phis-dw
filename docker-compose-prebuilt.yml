@@ -1,0 +1,65 @@
+version: "3"
+services:
+  # hapi-fhir-mysql:
+  #   image: mysql:5.7
+  #   container_name: hapi-fhir-mysql
+  #   restart: always
+  #   environment:
+  #     MYSQL_DATABASE: 'hapi'
+  #     MYSQL_USER: 'admin'
+  #     MYSQL_PASSWORD: 'admin'
+  #     MYSQL_ROOT_PASSWORD: 'admin'
+  #     #volumes:
+  #     #- hapi-fhir-mysql:/var/lib/mysql
+  #   # ports:
+  #   #   - "3306:3306"
+  #   networks:
+  #     - elastic
+  fhir-phis-dw:
+    image: beapen/fhir-server-phis-dw:02142020
+    #container_name: hapi-fhir-jpaserver-start
+    container_name: fhir-phis-dw
+    restart: on-failure
+    environment:
+      server_address: http://192.168.0.248:8092/fhir/
+    ports:
+      - "8092:8080"
+    # depends_on:
+    #   - hapi-fhir-mysql
+    # links:
+    #   - hapi-fhir-mysql
+    networks:
+      - elastic
+  # https://alysivji.github.io/elasticsearch-kibana-with-docker-compose.html
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+    container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+    networks:
+      - elastic
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.3.2
+    environment: 
+      SERVER_NAME: localhost
+      ELASTICSEARCH_URL: http://elasticsearch:9200/
+    ports:
+      - "8093:5601"
+    depends_on: 
+      - elasticsearch
+    networks:
+      - elastic
+networks:
+  elastic:
+    driver: bridge    
+#volumes:
+  #hapi-fhir-mysql:
