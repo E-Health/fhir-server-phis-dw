@@ -14,6 +14,7 @@ Public health databases are vital for the community for efficient planning, surv
 ### Use prebuilt containers 
 
 * change the server url in docker-compose.yml
+* sudo sysctl -w vm.max_map_count=524288
 
 ```
 docker-compose up -d -f docker-compose-prebuilt.yml
