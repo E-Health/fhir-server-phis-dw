@@ -20,6 +20,8 @@ services:
     #container_name: hapi-fhir-jpaserver-start
     container_name: fhir-phis-dw
     restart: on-failure
+    environment:
+      server_address: http://192.168.0.248:8092/fhir/
     ports:
       - "8092:8080"
     # depends_on:
