@@ -1,16 +1,5 @@
 version: "3"
 services:
-  # hapi-fhir-jpaserver-start:
-  #   build: .
-  #   #container_name: hapi-fhir-jpaserver-start
-  #   container_name: fhir-phis-dw
-  #   restart: on-failure
-  #   ports:
-  #     - "8092:8080"
-  #   depends_on: 
-  #     - hapi-fhir-mysql
-  #   networks:
-  #     - elastic
   # hapi-fhir-mysql:
   #   image: mysql:5.7
   #   container_name: hapi-fhir-mysql
@@ -22,6 +11,23 @@ services:
   #     MYSQL_ROOT_PASSWORD: 'admin'
   #     #volumes:
   #     #- hapi-fhir-mysql:/var/lib/mysql
+  #   # ports:
+  #   #   - "3306:3306"
+  #   networks:
+  #     - elastic
+  fhir-phis-dw:
+    build: .
+    #container_name: hapi-fhir-jpaserver-start
+    container_name: fhir-phis-dw
+    restart: on-failure
+    ports:
+      - "8092:8080"
+    # depends_on:
+    #   - hapi-fhir-mysql
+    # links:
+    #   - hapi-fhir-mysql
+    networks:
+      - elastic
   # https://alysivji.github.io/elasticsearch-kibana-with-docker-compose.html
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
