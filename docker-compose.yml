@@ -2,7 +2,8 @@ version: "3"
 services:
   hapi-fhir-jpaserver-start:
     build: .
-    container_name: hapi-fhir-jpaserver-start
+    #container_name: hapi-fhir-jpaserver-start
+    container_name: beapen/fhir-phis-dw
     restart: on-failure
     ports:
       - "8092:8080"
